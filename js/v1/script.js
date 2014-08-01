@@ -80,9 +80,6 @@ $(function() {
 
     window.setTimeout(function() {
         getTemperature(config.TEMP.TEMP_POOL.ID);
-    }, 1000);
-
-    window.setTimeout(function() {
         getTemperature(config.TEMP.TEMP_GARAGE.ID);
     }, 1000);
 
