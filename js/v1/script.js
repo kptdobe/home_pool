@@ -30,6 +30,14 @@ $(function() {
             TEMP_GARAGE: {
                 ID: "temp_garage"
             }
+        },
+        DOOR: {
+            GARAGE: {
+                API: "/garage/door",
+                ID: "door_garage",
+                VALUE_OFF: 1,
+                VALUE_ON: 0
+            }
         }
     };
 
@@ -78,9 +86,41 @@ $(function() {
         });
     };
 
+    var getDoorStatus = function(sensor) {
+        $.get(sensor.API, null, function(data) {
+            var door = $("#" + sensor.ID);
+
+            var setStatus = function (value) {
+                var setOff = function () {
+                    door.addClass("label-default");
+                    door.removeClass("label-warning");
+                    door.html("Fermée");
+                };
+
+                var setOn = function () {
+                    door.addClass("label-warning");
+                    door.removeClass("label-default");
+                    door.html("Ouverte");
+                };
+
+                if (value == sensor.VALUE_ON) {
+                    setOn();
+                } else {
+                    setOff();
+                }
+            };
+            setStatus(data);
+        });
+    };
+
     window.setTimeout(function() {
         getTemperature(config.TEMP.TEMP_POOL.ID);
         getTemperature(config.TEMP.TEMP_GARAGE.ID);
+        getDoorStatus(config.DOOR.GARAGE);
     }, 1000);
+
+
+
+
 
 });
